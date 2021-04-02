@@ -1,13 +1,26 @@
+from random import choice
+import user_interface
+
+
 class Sweepstakes:
     def __init__(self, name):
         self.name = name
-        self.contestant = []
+        self.contestants = {}
 
     def register_contestant(self, contestant):
-        pass
+        self.contestants[contestant.registration_number] = contestant
 
     def pick_winner(self):
-        pass
+        winner = choice(list(self.contestants.keys()))
+        for contestant in self.contestants.values():
+            if contestant.registration_number == winner:
+                contestant.notify(True)
+            else:
+                contestant.notify(False)
 
-    def print_contestant_info(self, contestant):
-        pass
+        return winner
+
+    @staticmethod
+    def print_contestant_info(contestant):
+        user_interface.output_text(f'Name {contestant.first_name} {contestant.last_name}\n')
+        user_interface.output_text(f'Email {contestant.email}\n')
